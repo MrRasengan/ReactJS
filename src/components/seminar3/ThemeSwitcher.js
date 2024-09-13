@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '@mui/material';
-import Content from './Content';
+import Content from './Content.js';
 
 const ThemeSwitcher = () => {
   // Состояние для хранения текущей темы
