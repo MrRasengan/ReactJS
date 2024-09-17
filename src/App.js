@@ -1,4 +1,5 @@
 import "./App.css";
+
 // Seminar1
 import Greeting from "./components/seminar1/Greeting";
 import CurrentTime from "./components/seminar1/CurrentTime";
@@ -22,6 +23,28 @@ import HomePage from './components/seminar4/HomePage';
 import AboutPage from './components/seminar4/AboutPage';
 import ListPage from './components/seminar4/ListPage';
 import DetailPage from './components/seminar4/DetailPage';
+// Seminar5
+import { useState } from "react";
+import { UserContext } from "./contexts/UserContext";
+import { Header } from "./components/seminar5/Header";
+import { Main } from "./components/seminar5/Main";
+import { Footer } from "./components/seminar5/Footer";
+import { ThemeProvider } from "./contexts/ThemeContext";
+import { Provider } from "react-redux";
+import { store } from "./components/seminar5/store/store";
+import React, { useEffect } from 'react';
+import withLoadingIndicator from './components/seminar5/WithLoadingIndicator';
+
+const MyComponent = ({ data }) => {
+  return (
+    <div>
+      <h1>My Component</h1>
+      <p>Data: {data}</p>
+    </div>
+  );
+};
+
+const MyComponentWithLoading = withLoadingIndicator(MyComponent);
 
 const App = () => {
 	const events = [
@@ -101,6 +124,20 @@ const App = () => {
     ));
   };
 
+	const [username, setUsername] = useState("гость");
+
+	const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate data fetching
+    setTimeout(() => {
+      setData('Hello, world!');
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
+
 	return (
 		<div className="App">
 
@@ -176,6 +213,20 @@ const App = () => {
     </Router>
 		<br></br>
 
+		<p className="less">Семинар 5</p>
+
+		<Provider store={store}>
+      <ThemeProvider>
+        <UserContext.Provider value={{ username, setUsername }}>
+          <Header />
+          <Main />
+        </UserContext.Provider>
+        <Footer />
+      </ThemeProvider>
+    </Provider>
+		<br></br>
+
+		<MyComponentWithLoading isLoading={isLoading} data={data} />
 
 
 	</div>
